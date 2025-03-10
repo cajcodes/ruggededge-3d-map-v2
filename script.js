@@ -543,7 +543,7 @@ window.onload = function() {
     function calculateDistanceToHazard(position) {
         try {
             // Convert the current position to Cartesian3
-            const cartesianPosition = Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, 1);
+            const cartesianPosition = Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, -21);
             
             // Check if the point is inside the polygon first
             if (isPointInPolygon(cartesianPosition, hazardZoneVertices)) {
@@ -777,7 +777,7 @@ window.onload = function() {
             const workerEntity = worker.entity;
             
             // Update entity position
-            workerEntity.position = Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, 1);
+            workerEntity.position = Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, -21);
             
             // Update entity appearance based on status
             if (status === 'danger') {
@@ -800,7 +800,7 @@ window.onload = function() {
             const pathEntity = worker.trail;
             
             // Add new position to trail
-            const cartesianPosition = Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, 0.5);
+            const cartesianPosition = Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, -21);
             worker.trailPositions.push(cartesianPosition);
             
             // Limit trail length for performance
