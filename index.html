@@ -1,0 +1,178 @@
+<html>
+<head>
+ <meta charset="utf-8">
+ <script src="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.105/Build/Cesium/Cesium.js"></script>
+ <link href="https://ajax.googleapis.com/ajax/libs/cesiumjs/1.105/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+ <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  
+  <!-- Top Navigation Bar -->
+  <div id="topNav">
+    <div class="logo">
+      <i class="fas fa-map-marked-alt"></i>
+      <span>RuggedEdge 3D Worker Safety</span>
+    </div>
+    <div class="nav-controls">
+      <button id="resetViewBtn" title="Reset View"><i class="fas fa-home"></i></button>
+      <button id="toggleWorkerPanel" title="Toggle Worker Panel"><i class="fas fa-users"></i></button>
+    </div>
+  </div>
+  
+  <!-- Main Control Panel -->
+  <div id="controlPanel">
+    <div class="panel-header">
+      <h2><i class="fas fa-sliders"></i> Control Panel</h2>
+      <button id="togglePanel" title="Minimize control panel">−</button>
+    </div>
+    <div class="panel-content">
+      <div id="workerControls">
+        <div class="control-group">
+          <h3><i class="fas fa-stopwatch"></i> Animation Speed</h3>
+          <input type="range" id="speedControl" min="1" max="10" value="5">
+          <span id="speedValue">5s</span>
+        </div>
+      </div>
+      <div id="workerStatus">
+        <h3><i class="fas fa-user-hard-hat"></i> Worker Overview</h3>
+        <div id="statusList"></div>
+      </div>
+      <div id="alerts">
+        <h3><i class="fas fa-bell"></i> Alerts</h3>
+        <div id="alertsList"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Detailed Worker Information Panel -->
+  <div id="workerInfoPanel" class="hidden">
+    <div class="panel-header">
+      <h2><i class="fas fa-user-hard-hat"></i> <span id="workerInfoTitle">Worker Details</span></h2>
+      <button id="closeWorkerInfo" title="Close panel"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panel-content">
+      <div class="worker-profile">
+        <div class="worker-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="worker-basic-info">
+          <h3 id="workerName">Worker Name</h3>
+          <p id="workerRole">Safety Inspector</p>
+          <div id="workerStatusBadge" class="status-badge safe">
+            <i class="fas fa-check-circle"></i> Safe
+          </div>
+        </div>
+      </div>
+      
+      <div class="vitals-container">
+        <h3><i class="fas fa-heartbeat"></i> Vital Signs</h3>
+        <div class="vitals-grid">
+          <div class="vital-card">
+            <div class="vital-icon heart-rate">
+              <i class="fas fa-heart-pulse"></i>
+            </div>
+            <div class="vital-data">
+              <span class="vital-value" id="heartRate">72</span>
+              <span class="vital-unit">BPM</span>
+            </div>
+            <div class="vital-label">Heart Rate</div>
+          </div>
+          
+          <div class="vital-card">
+            <div class="vital-icon blood-pressure">
+              <i class="fas fa-wave-square"></i>
+            </div>
+            <div class="vital-data">
+              <span class="vital-value" id="bloodPressure">120/80</span>
+              <span class="vital-unit">mmHg</span>
+            </div>
+            <div class="vital-label">Blood Pressure</div>
+          </div>
+          
+          <div class="vital-card">
+            <div class="vital-icon oxygen">
+              <i class="fas fa-lungs"></i>
+            </div>
+            <div class="vital-data">
+              <span class="vital-value" id="oxygenLevel">98</span>
+              <span class="vital-unit">%</span>
+            </div>
+            <div class="vital-label">Oxygen</div>
+          </div>
+          
+          <div class="vital-card">
+            <div class="vital-icon temperature">
+              <i class="fas fa-temperature-half"></i>
+            </div>
+            <div class="vital-data">
+              <span class="vital-value" id="temperature">98.6</span>
+              <span class="vital-unit">°F</span>
+            </div>
+            <div class="vital-label">Temperature</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="location-container">
+        <h3><i class="fas fa-location-dot"></i> Location Data</h3>
+        <div class="location-details">
+          <div class="location-item">
+            <div class="item-label">Current Position:</div>
+            <div class="item-value" id="currentPosition">-94.9990, 29.7435</div>
+          </div>
+          <div class="location-item">
+            <div class="item-label">Distance from Hazard:</div>
+            <div class="item-value" id="hazardDistance">45.2m</div>
+          </div>
+          <div class="location-item">
+            <div class="item-label">Movement Direction:</div>
+            <div class="item-value" id="movementDirection">Northeast</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="history-container">
+        <h3><i class="fas fa-clock-rotate-left"></i> Alert History</h3>
+        <div id="workerAlertHistory" class="history-list">
+          <!-- Alert history will be populated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Hazard Zone Alert Modal -->
+  <div id="hazardAlert" class="hazard-alert hidden">
+    <div class="hazard-alert-content">
+      <div class="hazard-icon">
+        <i class="fas fa-triangle-exclamation"></i>
+      </div>
+      <h3>HAZARD ZONE ALERT</h3>
+      <p id="hazardMessage">A worker has entered the hazardous zone!</p>
+      <div class="hazard-actions">
+        <button id="locateWorker" class="action-btn"><i class="fas fa-location-crosshairs"></i> Locate</button>
+        <button id="closeHazardAlert" class="action-btn"><i class="fas fa-check"></i> Acknowledge</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Predictive Warning Alert -->
+  <div id="predictiveAlert" class="predictive-alert hidden">
+    <div class="predictive-alert-content">
+      <div class="predictive-icon">
+        <i class="fas fa-shield-exclamation"></i>
+      </div>
+      <h3>PREDICTIVE WARNING</h3>
+      <p id="predictiveMessage">Worker is approaching a hazardous zone!</p>
+      <div class="predictive-actions">
+        <button id="locatePredictiveWorker" class="action-btn"><i class="fas fa-location-crosshairs"></i> Locate</button>
+        <button id="closePredictiveAlert" class="action-btn"><i class="fas fa-check"></i> Acknowledge</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
