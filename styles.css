@@ -116,12 +116,14 @@ button {
 }
 
 #controlPanel.minimized {
-    transform: translateX(calc(-100% + 85px));
+    transform: translateX(calc(-100% + 40px));
 }
 
 #controlPanel.minimized .panel-header {
-    transform: translateX(20px);
-    width: 85px;
+    transform: translateX(0);
+    width: 100%;
+    justify-content: flex-end;
+    padding-right: 0;
 }
 
 #controlPanel.minimized .panel-header h2 {
@@ -136,11 +138,28 @@ button {
 }
 
 #controlPanel.minimized #togglePanel {
-    margin-left: 10px;
+    margin-left: 0;
+    margin-right: 0;
     font-size: 28px;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px 12px;
+    background-color: var(--primary-color);
+    color: white;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    right: -50px;
+    top: 10px;
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#controlPanel.minimized #togglePanel:hover {
+    background-color: var(--primary-dark);
+    transform: scale(1.05);
 }
 
 .panel-header {
