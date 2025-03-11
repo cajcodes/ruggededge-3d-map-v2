@@ -259,10 +259,10 @@ window.onload = function() {
                 positions: new Cesium.CallbackProperty(() => {
                     return trailPositions.slice();  // Return a copy to avoid modification issues
                 }, false),
-                width: 2,
+                width: 5,
                 material: new Cesium.PolylineGlowMaterialProperty({
-                    glowPower: 0.2,
-                    color: colors[index].withAlpha(0.5)
+                    glowPower: 0.3,
+                    color: colors[index].withAlpha(0.7)
                 })
             }
         });
@@ -271,7 +271,7 @@ window.onload = function() {
             entity: viewer.entities.add({
                 position: firstPosition,
                 point: {
-                    pixelSize: 10,
+                    pixelSize: 15,
                     color: colors[index],
                 },
                 label: {
@@ -279,10 +279,11 @@ window.onload = function() {
                     fillColor: colors[index],
                     showBackground: true,
                     backgroundColor: Cesium.Color.WHITE.withAlpha(0.7),
-                    font: '14px sans-serif',
+                    font: '18px sans-serif',
                     style: Cesium.LabelStyle.FILL_AND_OUTLINE,
                     verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                    pixelOffset: new Cesium.Cartesian2(0, -20),
+                    pixelOffset: new Cesium.Cartesian2(0, -25),
+                    outlineWidth: 2,
                 }
             }),
             path: path,
