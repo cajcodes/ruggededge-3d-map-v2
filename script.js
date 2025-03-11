@@ -278,12 +278,15 @@ window.onload = function() {
                     text: `Worker ${index+1}`,
                     fillColor: colors[index],
                     showBackground: true,
-                    backgroundColor: Cesium.Color.WHITE.withAlpha(0.7),
-                    font: '18px sans-serif',
+                    backgroundColor: Cesium.Color.WHITE.withAlpha(0.8),
+                    font: '18px Arial, Helvetica, sans-serif',
                     style: Cesium.LabelStyle.FILL_AND_OUTLINE,
                     verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
                     pixelOffset: new Cesium.Cartesian2(0, -25),
-                    outlineWidth: 2,
+                    outlineWidth: 3,
+                    outlineColor: Cesium.Color.BLACK,
+                    disableDepthTestDistance: Number.POSITIVE_INFINITY, // Always render on top of other objects
+                    translucencyByDistance: new Cesium.NearFarScalar(100, 1.0, 5000, 1.0), // Stay opaque at any distance
                 }
             }),
             path: path,
