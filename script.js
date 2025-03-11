@@ -275,7 +275,7 @@ window.onload = function() {
                     color: colors[index],
                 },
                 label: {
-                    text: `Worker ${index+1}`,
+                    text: `W o r k e r  ${index+1}`,  // Added spaces between characters for better readability
                     fillColor: colors[index],
                     showBackground: true,
                     backgroundColor: Cesium.Color.WHITE.withAlpha(0.8),
