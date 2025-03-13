@@ -20,6 +20,34 @@ window.onload = function() {
         terrainProvider: Cesium.createWorldTerrain()
     });
 
+    // Track help menu state using Cesium's view model
+    const helpButton = viewer.navigationHelpButton.viewModel;
+    let wasHelpOpen = false;
+
+    // Check help menu state periodically
+    setInterval(() => {
+        // Use helpButton.showInstructions instead of _touched to get the actual state
+        const isHelpOpen = helpButton.showInstructions;
+        
+        // If help menu was open and is now closed
+        if (wasHelpOpen && !isHelpOpen) {
+            // Help menu was just closed, expand the control panel
+            if (controlPanel.classList.contains('minimized')) {
+                togglePanel.click();
+            }
+        }
+        
+        wasHelpOpen = isHelpOpen;
+    }, 100);
+
+    // Add help menu event listener for opening
+    viewer.navigationHelpButton.viewModel.command.beforeExecute.addEventListener(() => {
+        // Only handle the open case here
+        if (!controlPanel.classList.contains('minimized')) {
+            togglePanel.click();
+        }
+    });
+
     // Camera controls
     viewer.scene.screenSpaceCameraController.enableRotate = true;
     viewer.scene.screenSpaceCameraController.enableTranslate = true;
