@@ -752,8 +752,24 @@ select {
 }
 
 .cesium-viewer-toolbar {
-    right: 10px;
-    top: 70px;
+    left: 10px !important;
+    bottom: 10px !important;
+    top: auto !important;
+    right: auto !important;
+}
+
+.cesium-home-button {
+    left: 10px !important;
+    bottom: 10px !important;
+    top: auto !important;
+    right: auto !important;
+}
+
+.cesium-navigation-help {
+    left: 10px !important;
+    bottom: 50px !important;
+    top: auto !important;
+    right: auto !important;
 }
 
 .cesium-navigation-help-button {
